@@ -1,6 +1,6 @@
 log/*.log
 tmp/**/*
-public/stylesheets/*
+public/stylesheets/compiled/*
 db/schema.rb
 config/database.yml
 db/*.sqlite3

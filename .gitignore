@@ -1,8 +1,7 @@
 log/*.log
 tmp/**/*
-public/stylesheets/compiled/*
+public/stylesheets/*
 db/schema.rb
 config/database.yml
-config/initializers/site_keys.rb
 db/*.sqlite3
 *~

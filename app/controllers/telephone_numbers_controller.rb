@@ -1,6 +1,4 @@
 class TelephoneNumbersController < ApplicationController
-  before_filter :require_user
-
   def index
     @query = params[:q]
     if @query

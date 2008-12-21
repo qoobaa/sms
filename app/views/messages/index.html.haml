@@ -1,0 +1,6 @@
+- content_for :menu do
+  = render :partial => "menu"
+
+%h2= h "Listing #{@state} messages"
+
+#messages= render :partial => "messages"

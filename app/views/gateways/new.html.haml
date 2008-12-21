@@ -1,0 +1,10 @@
+- content_for :menu do
+  = render :partial => "menu"
+
+= error_messages_for :gateway
+
+- form_for :gateway, :url => gateways_path do |f|
+  = hidden_field_tag "type", @type
+  = render :partial => "#{@gateway.class.to_s.tableize}/form", :locals => { :f => f }
+  %fieldset.buttons
+    = submit_tag "Create"

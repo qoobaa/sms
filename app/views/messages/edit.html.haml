@@ -1,0 +1,15 @@
+- content_for :menu do
+  = render :partial => "menu"
+  = render :partial => "single_menu"
+
+%h2 Edit message
+
+= error_messages_for :message
+
+- @message.telephone_numbers.each do |telephone_number|
+  = error_messages_for :telephone_number, :object => telephone_number
+
+- form_for @message do |f|
+  = render :partial => "form", :locals => { :f => f }
+  %fieldset.buttons
+    = submit_tag "Update"

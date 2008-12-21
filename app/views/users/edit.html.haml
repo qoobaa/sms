@@ -1,0 +1,20 @@
+%h2 Edit profile
+
+- form_for @user, :url => user_path do |f|
+  = f.error_messages
+  %fieldset
+    %legend User information
+    %ol
+      %li
+        = f.label :login
+        = f.text_field :login
+      %li
+        = f.label :password
+        = f.password_field :password
+      %li
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation
+      %li
+        = f.label :email
+        = f.text_field :email
+  = f.submit "Update"

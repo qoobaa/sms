@@ -1,6 +1,4 @@
 class MessagesController < ApplicationController
-  before_filter :require_user
-
   def index
     redirect_to pending_messages_path
   end

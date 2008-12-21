@@ -1,0 +1,15 @@
+- content_for :menu do
+  = render :partial => "menu"
+
+%h2 Listing gateways
+
+= will_paginate @gateways
+
+%ul
+  - @gateways.each do |gateway|
+    %li
+      %dl
+        %dt Name
+        %dd= link_to gateway.name, gateway_path(gateway)
+        %dt Type
+        %dd= gateway.class.to_s.titleize

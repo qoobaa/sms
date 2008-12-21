@@ -1,0 +1,4 @@
+%li= link_to_unless_current_action "Show", gateway_path(@gateway)
+%li= link_to_unless_current_action "Edit", edit_gateway_path(@gateway)
+- if @gateway.can_be_destroyed?
+  %li= link_to_unless_current_action "Delete", delete_gateway_path(@gateway)

@@ -1,0 +1,19 @@
+%fieldset
+  %legend VoipDiscount gateway
+  %ol
+    %li
+      = f.label :name, "Name<em>*</em>"
+      = f.text_field :name
+      %small e.g. my voip account
+    %li
+      = f.label :login, "Login<em>*</em>"
+      = f.text_field :login
+      %small login of the VoipDiscount account
+    %li
+      = f.label :password, "Password<em>*</em>"
+      = f.password_field :password
+      %small password to the account
+    %li
+      = f.label :sender_number
+      = f.text_field :sender_number
+      %small sender number must be registered in your account, otherwise will use login as sender number

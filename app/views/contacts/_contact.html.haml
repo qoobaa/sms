@@ -1,0 +1,8 @@
+%dl
+  %dt Name
+  %dd= contact.name
+  %dt Telephone number
+  %dd= link_to contact.telephone_number.number, telephone_number_path(contact.telephone_number)
+  - unless contact.description.blank?
+    %dt Description
+    %dd= contact.description

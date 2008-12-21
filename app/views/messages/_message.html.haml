@@ -1,0 +1,18 @@
+%dl
+  - unless message.telephone_numbers.empty?
+    %dt Recipients
+    %dd
+      - message.telephone_numbers.each do |telephone_number|
+        = link_to_telephone_number(telephone_number)
+  %dt Content
+  %dd= h message.content
+  - if message.gateway
+    %dt Gateway
+    %dd= link_to message.gateway.name, gateway_path(message.gateway)
+  %dt State
+  %dd= link_to message.aasm_state, messages_path(:state => message.aasm_state)
+  %dt Deliver at
+  %dd= message.deliver_at
+  - if message.delivered?
+    %dt Delivered at
+    %dd= message.delivered_at

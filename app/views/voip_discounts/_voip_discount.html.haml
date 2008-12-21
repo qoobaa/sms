@@ -1,0 +1,11 @@
+%dl
+  %dt Name
+  %dd= voip_discount.name
+  %dt Type
+  %dd= voip_discount.class.to_s.titleize
+  %dt Login
+  %dd= voip_discount.login
+  %dt Sender number
+  %dd= voip_discount.sender_number
+  %dt Remaining credit
+  %dd= number_to_currency voip_discount.amount, :unit => "&euro;", :format => "%u %n"

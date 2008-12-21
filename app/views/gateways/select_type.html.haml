@@ -1,0 +1,12 @@
+- content_for :menu do
+  = render :partial => "menu"
+
+- form_tag new_gateway_path, :method => :get do
+  %fieldset
+    %legend Select type of gateway
+    %ol
+      %li
+        %label{ :for => "type" } Type<em>*</em>
+        = select_tag "type", options_for_select(Gateway.types_for_select)
+  %fieldset.buttons
+    = submit_tag "Select"

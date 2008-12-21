@@ -1,6 +1,4 @@
 class RecipientsController < ApplicationController
-  before_filter :require_user
-
   def index
     @query = params[:q]
     @telephone_numbers = @current_user.telephone_numbers.find_all_by_number_like(@query)

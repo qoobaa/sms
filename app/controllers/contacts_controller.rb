@@ -1,6 +1,4 @@
 class ContactsController < ApplicationController
-  before_filter :require_user
-
   def index
     @contacts = @current_user.contacts.paginate :page => params[:page], :order => "name ASC"
   end

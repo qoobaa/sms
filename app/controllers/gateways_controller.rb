@@ -1,6 +1,4 @@
 class GatewaysController < ApplicationController
-  before_filter :require_user
-
   def index
     @gateways = @current_user.gateways.paginate :page => params[:page], :order => "name ASC"
   end

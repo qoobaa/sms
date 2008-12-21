@@ -1,0 +1,12 @@
+- content_for :menu do
+  = render :partial => "menu"
+  = render :partial => "single_menu"
+
+%h2 Editing gateway
+
+= error_messages_for :gateway
+
+- form_for :gateway, :url => gateway_path(@gateway), :html => { :method => :put } do |f|
+  = render :partial => "#{@gateway.class.to_s.tableize}/form", :locals => { :f => f }
+  %fieldset.buttons
+    = submit_tag "Update"

@@ -1,0 +1,3 @@
+%li= link_to_unless_current_action "Show", telephone_number_path(@telephone_number)
+- if @telephone_number.can_be_destroyed?
+  %li= link_to_unless_current_action "Delete", delete_telephone_number_path(@telephone_number)

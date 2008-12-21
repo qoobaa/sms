@@ -1,0 +1,19 @@
+%fieldset
+  %legend Message
+  %ol
+    %li
+      = f.label :recipients, "Recipients<em>*</em>"
+      = f.text_field :recipients
+      %small e.g. +48 123-456-789, John Doe, 22 555-555
+    %li
+      = f.label :content, "Content<em>*</em>"
+      = f.text_area :content
+%fieldset
+  %legend Delivery
+  %ol
+    %li
+      = f.label :gateway_id, "Gateway<em>*</em>"
+      = f.collection_select :gateway_id, @gateways, :id, :name
+    %li
+      = f.label :deliver_at
+      = f.datetime_select :deliver_at

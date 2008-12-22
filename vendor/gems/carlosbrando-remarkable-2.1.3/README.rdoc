@@ -1,0 +1,131 @@
+= Shoulda for RSpec is Remarkable!
+
+For a long time I was evangelizing Shoulda at Surgeworks and used it in my personal projects. The fact is, I didn’t have much success in convincing my co-workers to adopt Shoulda. On the other hand, they managed to convince me to learn and use RSpec.
+
+RSpec is a very interesting Testing Framework. But I start to like it more after I started to use the Cucumber.
+
+The great thing about Shoulda is that it’s simplifies tests for trivial things.
+
+I got to like RSpec more and more, so I decided to adopt it as my official testing framework from now on. But I can no longer live without the resources that Shoulda offers me. So I decided to scratch my itch.
+
+== DESCRIPTION:
+
+Initially, the main objective of Remarkable is to port all Shoulda macros to RSpec, but of course the plan is more ambitious than that. I have other ideas that will hopefully be especially useful for Rspec users.
+
+At this point you may ask: “But aren’t there already plug-ins that do the same thing. Why build something else?”
+
+First, this isn’t simply “another” plugin with RSpec matchers. It also does a lot of things differently that I feel are better than other approaches.
+
+== FEATURES:
+
+Here are some of the things that make Remarkable special:
+
+* It is not a plug-in; it’s a gem.
+* All currently Shoulda macros are ported to RSpec.
+* It has two different test syntaxes: one for those who like the RSpec style and another for those who are migrating their projects from Shoulda to RSpec.
+* Tests.
+* More tests.
+* And a few more tests.
+
+Unlike other similar projects, Remarkable is the only one that tests itself, and this is a big difference, believe me! How can we trust in a project that has no tests? How can you develop an open-source project with no tests? How do you ensure that the last commit didn’t break anything?
+
+== SYNOPSIS:
+
+All Remarkable macros can be accessed in two different ways. For those who prefer the Shoulda style, let’s look at some model tests:
+
+	describe Post do
+	  fixtures :all
+
+	  should_belong_to :user
+	  should_belong_to :owner
+	  should_belong_to :user, :owner
+
+	  should_have_many :tags, :through => :taggings
+	  should_have_many :through_tags, :through => :taggings
+	  should_have_many :tags, :through_tags, :through => :taggings
+
+	  should_require_unique_attributes :title
+	  should_require_attributes :body, :message => /wtf/
+	  should_require_attributes :title
+	  should_only_allow_numeric_values_for :user_id
+	end
+
+Like Shoulda, right? That’s the idea! This syntax is for those who wish to migrate their Shoulda tests to RSpec. You basically just have to change context to describe and wrap your should statements with it {}.
+
+But if you don’t like this syntax, you can also create the same tests as follows.
+
+	describe Post do
+	  fixtures :all
+
+	  it { should belong_to(:user) }
+	  it { should belong_to(:owner) }
+	  it { should belong_to(:user, :owner) }
+
+	  it { should have_many(:tags, :through => :taggings) }
+	  it { should have_many(:through_tags, :through => :taggings) }
+	  it { should have_many(:tags, :through_tags, :through => :taggings) }
+
+	  it { should require_unique_attributes(:title) }
+	  it { should require_attributes(:body, :message => /wtf/) }
+	  it { should require_attributes(:title) }
+	  it { should only_allow_numeric_values_for(:user_id) }
+	end
+
+Now with an RSpec style!
+
+== Macros
+
+=== Here are all the available macros:
+
+For Shoulda style: http://github.com/carlosbrando/remarkable/wikis/shoulda-macros
+
+For RSpec style: http://github.com/carlosbrando/remarkable/wikis/rspec-macros
+	
+== REQUIREMENTS:
+
+* rspec >= 1.1.11
+* rspec-rails >= 1.1.11
+
+== INSTALL:
+
+Run the following if you haven't already:
+
+	gem sources -a http://gems.github.com
+
+Install the gem:
+
+	sudo gem install carlosbrando-remarkable
+
+In RAILS_ROOT/config/environment.rb:
+
+	config.gem "carlosbrando-remarkable", :lib => "remarkable", :source => "http://gems.github.com"
+
+Then:
+
+	rake gems:install
+	rake gems:unpack
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2008 Carlos Brando
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -11,7 +11,7 @@ module Gateways
     MESSAGE_DATA = "action=send&panel=&message=%s&callerid=%s&bnrphonenumber=%s&sendscheduled=no" #&day=20&month=08&hour=11&minute=12&gmt=1"
     AMOUNT_LOCATION = "/clx/index.php?part=menu"
     LOGOUT_LOCATION = "/clx/index.php?part=logoff"
-    
+
     def self.login(login, password, &block)
       http = Net::HTTP.new(HOST, PORT)
       http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -52,7 +52,7 @@ module Gateways
     end
 
     protected
-    
+
     def initialize(http, http_header)
       @http = http
       @http_header = http_header

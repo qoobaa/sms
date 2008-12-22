@@ -6,7 +6,6 @@ class Contact < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => :user_id
 
   before_validation :sanitize_name, :associate_telephone_number
-  after_save :nullify_number
 
   attr_writer :number
   attr_accessible :name, :description, :telephone_number, :number
@@ -31,9 +30,5 @@ class Contact < ActiveRecord::Base
 
   def sanitize_name
     self.name.strip!
-  end
-
-  def nullify_number
-    @number = nil
   end
 end

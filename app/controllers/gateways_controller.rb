@@ -53,8 +53,7 @@ class GatewaysController < ApplicationController
 
   def destroy
     @gateway = @current_user.gateways.find(params[:id])
-    if @gateway.can_be_destroyed?
-      @gateway.destroy
+    if @gateway.destroy
       flash[:success] = "Gateway was successfully destroyed"
     else
       flash[:error] = "This gateway has messages and can't be destroyed"

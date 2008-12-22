@@ -10,7 +10,11 @@ class Gateway < ActiveRecord::Base
   belongs_to :user
   has_many :messages
 
+  @@per_page = 8
+  cattr_reader :per_page
+
   before_save :encrypt_password
+  before_destroy :destroyable?
 
   def allow_number?(number)
     false
@@ -20,8 +24,8 @@ class Gateway < ActiveRecord::Base
     false
   end
 
-  def can_be_destroyed?
-    messages.blank?
+  def destroyable?
+    messages.empty?
   end
 
   def self.types
@@ -54,9 +58,5 @@ class Gateway < ActiveRecord::Base
 
   def password_required?
     crypted_password.blank? || !password.blank?
-  end
-
-  def self.per_page
-    8
   end
 end

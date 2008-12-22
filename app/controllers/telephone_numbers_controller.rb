@@ -36,8 +36,7 @@ class TelephoneNumbersController < ApplicationController
 
   def destroy
     @telephone_number = @current_user.telephone_numbers.find(params[:id])
-    if @telephone_number.can_be_destroyed?
-      @telephone_number.destroy
+    if @telephone_number.destroy
       flash[:success] = "Telephone number was successfully destroyed"
     else
       flash[:error] = "This telephone number has associated messages and can't be destroyed"

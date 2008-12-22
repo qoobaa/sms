@@ -9,11 +9,14 @@ class TelephoneNumber < ActiveRecord::Base
   validates_uniqueness_of :subscriber_number, :scope => [:country_code, :user_id], :message => "is already in database"
 
   attr_writer :number
+  @@per_page = 8
+  cattr_reader :per_page
 
   attr_accessible :number, :description
 
   before_validation :split_number
   after_save :nullify_number
+  before_destroy :destroyable?
 
   def number
     @number ||= joined_number
@@ -33,8 +36,8 @@ class TelephoneNumber < ActiveRecord::Base
     errors.add :number, "format is invalid or no contact with given name" unless sanitized_number =~ /\A(?:\+\d)?\d+\Z/
   end
 
-  def can_be_destroyed?
-    contact.nil? and messages.blank?
+  def destroyable?
+    contact.blank? and messages.empty?
   end
 
   protected
@@ -57,9 +60,5 @@ class TelephoneNumber < ActiveRecord::Base
 
   def joined_number
     "#{country_code}#{subscriber_number}"
-  end
-
-  def self.per_page
-    8
   end
 end

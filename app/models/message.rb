@@ -26,6 +26,9 @@ class Message < ActiveRecord::Base
 
   before_validation :sanitize_recipients, :associate_telephone_numbers
 
+  @@per_page = 8
+  cattr_reader :per_page
+
   attr_accessible :recipients, :content, :deliver_at
   attr_writer :recipients
 
@@ -66,9 +69,5 @@ class Message < ActiveRecord::Base
     recipients.split(", ").each { |r| telephone_numbers << user.telephone_numbers.find_or_initialize_by_recipient(r) } if recipients
     generate_recipients
     telephone_numbers.uniq!
-  end
-
-  def self.per_page
-    8
   end
 end

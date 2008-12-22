@@ -1,4 +1,6 @@
 class TelephoneNumber < ActiveRecord::Base
+  extend ActiveSupport::Memoizable
+
   belongs_to :user
   belongs_to :contact
   has_and_belongs_to_many :messages
@@ -15,12 +17,12 @@ class TelephoneNumber < ActiveRecord::Base
   attr_accessible :number, :description
 
   before_validation :split_number
-  after_save :nullify_number
   before_destroy :destroyable?
 
   def number
-    @number ||= joined_number
+    @number or joined_number
   end
+  memoize :number
 
   def to_s
     contact ? contact.name : number
@@ -32,8 +34,8 @@ class TelephoneNumber < ActiveRecord::Base
   end
 
   def validate
-    errors.add :number, "is too long (maximum is 15 digits)" if sanitized_number.size > 16
-    errors.add :number, "format is invalid or no contact with given name" unless sanitized_number =~ /\A(?:\+\d)?\d+\Z/
+    errors.add :number, "#{number} is too long (maximum is 15 digits)" if sanitized_number.size > 16
+    errors.add :number, "format is invalid or no contact named #{number}" unless sanitized_number =~ /\A(?:\+\d)?\d+\Z/
   end
 
   def destroyable?
@@ -44,10 +46,6 @@ class TelephoneNumber < ActiveRecord::Base
 
   def number_valid?
     E164.is_a_number?(number)
-  end
-
-  def nullify_number
-    @number = nil
   end
 
   def sanitized_number

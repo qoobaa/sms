@@ -5,17 +5,12 @@ class MessagesController < ApplicationController
 
   def index_with_state
     @state = action_name
-    @messages = @current_user.messages.paginate_by_aasm_state @state, :page => params[:page], :order => "created_at DESC"
-    if request.xhr?
-      render :partial => "messages"
-    else
-      render :action => "index"
-    end
+    @messages = @current_user.messages.paginate_by_aasm_state(@state, :page => params[:page])
+    render :action => "index"
   end
 
   alias pending index_with_state
   alias delivered index_with_state
-  alias deleted index_with_state
 
   def show
     @message = @current_user.messages.find(params[:id])
@@ -61,15 +56,7 @@ class MessagesController < ApplicationController
 
   def destroy
     @message = @current_user.messages.find(params[:id])
-    @state = @message.aasm_state
-    case @state
-    when "pending", "delivered"
-      @message.delete!
-      flash[:success] = "Message was moved to trash bin"
-    when "deleted"
-      @message.destroy
-      flash[:success] = "Message was destroyed"
-    end
+    @message.destroy
     redirect_to :action => @state
   end
 end

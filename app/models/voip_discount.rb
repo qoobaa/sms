@@ -23,7 +23,7 @@ class VoipDiscount < Gateway
   def deliver(telephone_numbers, content)
     Rails.cache.delete("gateway#{id}.amount")
     result = false
-    Gateways::VoipDiscount.login(login, self.class.decrypt(crypted_password)) do |gateway| 
+    Gateways::VoipDiscount.login(login, self.class.decrypt(crypted_password)) do |gateway|
       result = gateway.deliver(sender_number, telephone_numbers.map(&:number).join(","), content)
     end
     result

@@ -22,10 +22,7 @@ SMS is a simple SMS sending application.
 
   git clone git://github.com/qoobaa/sms.git
   cd sms
-  git submodule init
-  git submodule update
   cp config/database.yml.sample config/database.yml
-  cp config/initializers/site_keys.rb.sample config/initializers/site_keys.rb
   rake db:migrate
   ./script/server
 

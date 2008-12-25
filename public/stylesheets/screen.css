@@ -1,0 +1,55 @@
+/*
+Sass::SyntaxError: Undefined mixin 'blueprint'.
+on line 3 of /home/kuba/sms/app/stylesheets/screen.sass
+
+1: @import blueprint/screen
+2: 
+3: +blueprint
+
+
+Backtrace:
+/home/kuba/sms/app/stylesheets/screen.sass:3
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/engine.rb:389:in `parse_mixin_include'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/engine.rb:302:in `parse_line'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/engine.rb:187:in `build_tree'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/engine.rb:116:in `render_to_tree'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/engine.rb:88:in `render'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/plugin.rb:65:in `update_stylesheets'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/plugin.rb:53:in `each'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/plugin.rb:53:in `update_stylesheets'
+/home/kuba/sms/vendor/gems/haml-2.0.6/rails/../lib/sass/plugin/rails.rb:16:in `process'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/base.rb:387:in `process'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/dispatcher.rb:78:in `dispatch'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/dispatcher.rb:102:in `_call'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/dispatcher.rb:71:in `initialize'
+/home/kuba/sms/vendor/rails/railties/lib/rails/rack/metal.rb:32:in `call'
+/home/kuba/sms/vendor/rails/railties/lib/rails/rack/metal.rb:32:in `call'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/session/cookie_store.rb:95:in `call'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/failsafe.rb:11:in `call'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/lock.rb:11:in `call'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/lock.rb:11:in `synchronize'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/lock.rb:11:in `call'
+/home/kuba/sms/vendor/rails/actionpack/lib/action_controller/dispatcher.rb:96:in `call'
+/home/kuba/sms/vendor/rails/railties/lib/rails/rack/static.rb:27:in `call'
+/home/kuba/sms/vendor/rails/railties/lib/rails/rack/log_tailer.rb:17:in `call'
+/usr/lib/ruby/gems/1.8/gems/rack-0.4.0/lib/rack/handler/webrick.rb:40:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:104:in `service'
+/usr/lib/ruby/1.8/webrick/httpserver.rb:65:in `run'
+/usr/lib/ruby/1.8/webrick/server.rb:173:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:162:in `start_thread'
+/usr/lib/ruby/1.8/webrick/server.rb:95:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `each'
+/usr/lib/ruby/1.8/webrick/server.rb:92:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:23:in `start'
+/usr/lib/ruby/1.8/webrick/server.rb:82:in `start'
+/usr/lib/ruby/gems/1.8/gems/rack-0.4.0/lib/rack/handler/webrick.rb:12:in `run'
+/home/kuba/sms/vendor/rails/railties/lib/commands/server.rb:100
+/usr/local/lib/site_ruby/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+/usr/local/lib/site_ruby/1.8/rubygems/custom_require.rb:31:in `require'
+script/server:3
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Sass::SyntaxError: Undefined mixin 'blueprint'.\A on line 3 of /home/kuba/sms/app/stylesheets/screen.sass\A \A 1: @import blueprint/screen\A 2: \A 3: +blueprint\A "; }

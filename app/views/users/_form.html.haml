@@ -4,31 +4,24 @@
     %li
       = f.label :login, "Login<em>*</em>"
       = f.text_field :login
-      = f.error_message_on :login
     %li
       = f.label :name
       = f.text_field :name
-      = f.error_message_on :name
     %li
       = f.label :email, "E-mail<em>*</em>"
       = f.text_field :email
-      = f.error_message_on :email
     %li
       = f.label :password, "Password<em>*</em>"
       = f.password_field :password
-      = f.error_message_on :password
     %li
       = f.label :password_confirmation, "Confirm password<em>*</em>"
       = f.password_field :password_confirmation
-      = f.error_message_on :password_confirmation
 %fieldset
   %legend Settings
   %ol
     %li
       = f.label :default_country_code, "Default country code<em>*</em>"
       = f.select :default_country_code, E164::COUNTRIES, :include_blank => true
-      = f.error_message_on :default_country_code
     %li
       = f.label :time_zone, "Time zone<em>*</em>"
       = f.time_zone_select :time_zone, nil, :include_blank => true
-      = f.error_message_on :time_zone

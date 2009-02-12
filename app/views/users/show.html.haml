@@ -1,6 +1,5 @@
-%h2 User information
+- content_for :menu do
+  = menu_item "Edit", edit_user_path
+  = menu_item "Delete", delete_user_path
 
 = render :partial => @user
-
-= link_to "Edit", edit_user_path
-= link_to "Delete", delete_user_path

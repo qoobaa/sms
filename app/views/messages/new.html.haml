@@ -1,11 +1,9 @@
-%h2 New message
-
-= error_messages_for :message
-
-- @message.telephone_numbers.each do |telephone_number|
-  = error_messages_for :telephone_number, :object => telephone_number
+- content_for :menu do
+  = menu_item "New", new_message_path
 
 - form_for @message do |f|
   = render :partial => "form", :locals => { :f => f }
   %fieldset.buttons
     = submit_tag "Send"
+    or
+    = link_to "Back", messages_path

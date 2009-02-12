@@ -1,17 +1,13 @@
-%h1 Login
-
 - form_for @user_session, :url => user_session_path do |f|
   %fieldset
     %legend Login information
     %ol
       %li
-        = f.label :login, "Login"
+        = f.label :login, "Login<em>*</em>"
         = f.text_field :login
-        = f.error_message_on :login
       %li
-        = f.label :password
+        = f.label :password, "Password<em>*</em>"
         = f.password_field :password
-        = f.error_message_on :password
   = f.submit "Login"
-
-= link_to "Sign up now!", new_user_path
+  or
+  = link_to "Sign up", new_user_path

@@ -1,22 +1,21 @@
-%h1 Listing messages
+- content_for :menu do
+  = menu_item "New", new_message_path
 
-#actions= link_to "new", new_message_path
-
-%table
-  %tr
-    %th Recipients
-    %th Content
-    %th State
-  - @messages.each do |message|
+- if @messages.empty?
+  %p No messages found
+- else
+  %table
     %tr
-      %td
-        - message.telephone_numbers.each do |telephone_number|
-          = link_to_telephone_number(telephone_number)
-      %td= truncate(message.content)
-      %td= link_to message.aasm_state, send("#{message.aasm_state}_messages_path")
-      %td
-        = link_to "show", message_path(message)
-        = link_to "edit", edit_message_path(message)
-        = link_to "delete", delete_message_path(message)
+      %th Recipients
+      %th Content
+      %th State
+    - @messages.each do |message|
+      %tr
+        %td
+          - message.telephone_numbers.each do |telephone_number|
+            = link_to_telephone_number(telephone_number)
+        %td= link_to truncate(message.content), message_path(message)
+        %td= link_to message.aasm_state, send("#{message.aasm_state}_messages_path")
 
-= will_paginate @messages
+#actions
+  = will_paginate @messages

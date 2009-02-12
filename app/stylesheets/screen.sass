@@ -1,0 +1,157 @@
+@import compass/reset
+@import compass/utilities
+@import compass/layout
+@import forms
+
+!body_background_color = #f0f0ee
+!body_color = #222222
+!header_background_color = #7a1818
+!header_color = #ffffff
+!navigation_background_color = #262626
+!navigation_color = #ffffff
+
++sticky-footer(25px, "#container", "#footer_container")
+
+body
+  :background= !body_background_color
+  :color= !body_color
+  :font-family helvetica, arial, sans-serif
+  a
+    +link-colors(!header_background_color)
+
+#container
+  :min-width 960px
+
+#header
+  :background= !header_background_color
+  :padding 0 1.5em
+  h1
+    a
+      +link-colors(#ffffff)
+      :text-decoration none
+      :font-size 3em
+
+#wrapper
+  :padding 1.5em
+
+#navigation
+  :height 2.25em
+  :background= !navigation_background_color
+  ul
+    :float left
+    +inline-list
+    a
+      :text-decoration none
+      :padding 0 0.75em 0 0.75em
+      :line-height 2.25em
+      :display block
+      :float left
+      +link-colors(!navigation_color)
+    a.active
+      :background= !body_background_color
+      +link-colors(!navigation_background_color)
+  #userbar
+    :float right
+
+#main
+  :float left
+  :width 70%
+  :background #ffffff
+
+#menu
+  :background= !header_background_color
+  :border-bottom= 10px solid !navigation_background_color
+  :height 2.25em
+  ul
+    +inline-list
+    a
+      :text-decoration none
+      :padding 0 0.75em 0 0.75em
+      :line-height 2.25em
+      :display block
+      :float left
+      +link-colors(!navigation_color)
+      &:hover
+        :background= !header_background_color - #222
+    a.active
+      :background= !navigation_background_color
+      +link-colors(!navigation_color)
+
+#content
+  +clearfix
+  +forms
+  :padding 1.5em
+  table
+    :width 100%
+    th
+      :background= !navigation_background_color
+      :color= !navigation_color
+      :padding 0.75em
+      :font-weight bold
+    td
+      :border-bottom= 1px solid !navigation_background_color + #bbb
+      :padding 0.75em
+  dl
+    dt
+      :float left
+      :padding 1em 0
+      :width 25%
+      :border-bottom solid 1px #ddd
+      :clear left
+    dd
+      :float left
+      :padding 1em 0
+      :border-bottom solid 1px #ddd
+      :width 75%
+
+#actions
+  :padding 0.75em 0
+
+#sidebar
+  :float right
+  :width 25%
+
+#footer
+  :text-align center
+  :background= !navigation_background_color - #111
+  :color= !navigation_color - #888
+  :padding 0 1.5em
+  :font-size 0.75em
+  :line-height 2em
+
+.pagination
+  :float right
+  a, span
+    :border solid 1px black
+    :display block
+    :float left
+    :margin-right 0.25em
+    :padding 2px 5px
+  a
+    :text-decoration none
+    :color= !navigation_background_color
+  a:hover, span.current
+    :text-decoration none
+    :background= !navigation_background_color
+    :color= !navigation_color
+
+#message_block
+  +clearfix
+  ul
+    :margin 1.5em 1.5em 0 1.5em
+    :padding 0.5em 0 0.5em 0
+    :list-style none
+    li
+      :margin-left 3em
+    &.error
+      :border 1px solid #ffbbbb
+      :background #ffdddd url(../../images/message_block/error_m.gif) 1em 50% no-repeat
+    &.information
+      :border 1px solid #ffbbbb
+      :background #ffdddd url(../../images/message_block/info_m.gif) 1em 50% no-repeat
+    &.success
+      :border 1px solid #1fdf00
+      :background #bbffb6 url(../../images/message_block/confirmation_m.gif) 1em 50% no-repeat
+    &.notice
+      :border 1px solid #eeebbb
+      :background #ffffcc url(../../images/message_block/warn_m.gif) 1em 50% no-repeat

@@ -1,6 +1,5 @@
-%h1 Listing gateways
-
-#actions= link_to "new", new_gateway_path
+- content_for :menu do
+  = menu_item "New", new_gateway_path
 
 %table
   %tr
@@ -8,11 +7,7 @@
     %th Type
   - @gateways.each do |gateway|
     %tr
-      %td= gateway.name
+      %td= link_to gateway.name, gateway_path(gateway)
       %td= gateway.class.to_s.titleize
-      %td
-        = link_to "show", gateway_path(gateway)
-        = link_to "edit", edit_gateway_path(gateway)
-        = link_to "delete", delete_gateway_path(gateway)
 
 = will_paginate @gateways

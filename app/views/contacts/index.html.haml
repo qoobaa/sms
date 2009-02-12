@@ -1,6 +1,5 @@
-%h1 Listing contacts
-
-#actions= link_to "new", new_contact_path
+- content_for :menu do
+  = menu_item "New", new_contact_path
 
 %table
   %tr

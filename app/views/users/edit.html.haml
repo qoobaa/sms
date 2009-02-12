@@ -1,5 +1,9 @@
-%h1 Edit profile
+- content_for :menu do
+  = menu_item "Edit", edit_user_path
+  = menu_item "Delete", delete_user_path
 
 - form_for @user, :url => user_path do |f|
   = render :partial => "form", :locals => { :f => f }
   = f.submit "Update"
+  or
+  = link_to "Back", user_path

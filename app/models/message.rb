@@ -20,6 +20,8 @@ class Message < ActiveRecord::Base
   validates_length_of :content, :maximum => 640
   validate :acceptance_of_telephone_numbers
 
+  default_scope :order => "created_at DESC"
+
   before_validation :associate_telephone_numbers
 
   @@per_page = 8

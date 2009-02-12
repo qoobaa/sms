@@ -4,13 +4,9 @@
     %li
       = f.label :name, "Name<em>*</em>"
       = f.text_field :name
-      = f.error_message_on :name
     %li
       = f.label :description
       = f.text_field :description
-      = f.error_message_on :description
     %li
       = f.label :number, "Number<em>*</em>"
       = f.text_field :number
-      = f.error_message_on :number
-      = error_message_on @contact.telephone_number, :number

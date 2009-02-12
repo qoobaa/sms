@@ -6,27 +6,30 @@
     = javascript_include_tag "jquery", "jquery.ui.all.js", "application"
   %body
     #container
-      - if @current_user
-        #userbar
-          %ul
-            %li= link_to_unless_current_controller "Profile", user_path, :controller => "user"
-            %li= link_to "Log out", delete_user_session_path
       #header
-        %h1 sms.jah.pl
-      #navigation
-        %ul
-          %li= link_to_unless_current_controller "Messages", messages_path
-          %li= link_to_unless_current_controller "Contacts", contacts_path
-          %li= link_to_unless_current_controller "Telephone numbers", telephone_numbers_path
-          %li= link_to_unless_current_controller "Gateways", gateways_path
-      #content
-        - unless flash[:error].nil?
-          %div.error= flash[:error]
-        - unless flash[:notice].nil?
-          %div.notice= flash[:notice]
-        - unless flash[:success].nil?
-          %div.success= flash[:success]
-        = yield
-      #container_footer
-    #footer
-      Copyright &copy; 2008 Jakub Kuźma
+        %h1= link_to "sms.jah.pl", root_path
+        #navigation
+          %ul
+            = navigation_item "Messages", messages_path
+            = navigation_item "Contacts", contacts_path
+            = navigation_item "Telephone numbers", telephone_numbers_path
+            = navigation_item "Gateways", gateways_path
+          - if @current_user
+            %ul#userbar
+              = navigation_item "Profile", user_path, :controller => "user"
+              = navigation_item "Log out", delete_user_session_path
+      #wrapper
+        #main
+          #menu
+            %ul
+              = yield :menu
+          = message_block :flash_types => [:error, :success, :notice]
+          #content
+            = yield
+        #sidebar
+          %div.block
+            test
+
+    #footer_container
+      #footer
+        Copyright &copy; 2009 Jakub Kuźma

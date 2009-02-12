@@ -1,0 +1,82 @@
+--- !ruby/object:Gem::Specification 
+name: railsgarden-message_block
+version: !ruby/object:Gem::Version 
+  version: 0.1.0
+platform: ruby
+authors: 
+- Ben Hughes
+autorequire: 
+bindir: bin
+cert_chain: []
+
+date: 2009-01-16 00:00:00 +01:00
+default_executable: 
+dependencies: []
+
+description: Handle multiple flash messages and ActiveRecord validation errors with ease.
+email: ben@railsgarden.com
+executables: []
+
+extensions: []
+
+extra_rdoc_files: 
+- CHANGELOG
+- lib/message_block/helpers.rb
+- lib/message_block.rb
+- README.rdoc
+files: 
+- assets/images/back.gif
+- assets/images/back_m.gif
+- assets/images/confirmation.gif
+- assets/images/confirmation_m.gif
+- assets/images/error.gif
+- assets/images/error_m.gif
+- assets/images/info.gif
+- assets/images/info_m.gif
+- assets/images/warn.gif
+- assets/images/warn_m.gif
+- assets/stylesheets/message_block.css
+- CHANGELOG
+- init.rb
+- install.rb
+- lib/message_block/helpers.rb
+- lib/message_block.rb
+- MIT-LICENSE
+- Rakefile
+- README.rdoc
+- test/message_block_helper_test.rb
+- Manifest
+- message_block.gemspec
+has_rdoc: true
+homepage: http://github.com/railsgarden/message_block
+post_install_message: 
+rdoc_options: 
+- --line-numbers
+- --inline-source
+- --title
+- Message_block
+- --main
+- README.rdoc
+require_paths: 
+- lib
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "1.2"
+  version: 
+requirements: []
+
+rubyforge_project: message_block
+rubygems_version: 1.3.1
+signing_key: 
+specification_version: 2
+summary: Handle multiple flash messages and ActiveRecord validation errors with ease.
+test_files: 
+- test/message_block_helper_test.rb

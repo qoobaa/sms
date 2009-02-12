@@ -1,10 +1,9 @@
-%h1 Listing telephone numbers
-
-%ul
+%table
+  %tr
+    %th Number
   - @telephone_numbers.each do |telephone_number|
-    %li
-      %dl
-        %dt Number
-        %dd= link_to telephone_number.number, telephone_number_path(telephone_number)
+    %tr
+      %td= link_to telephone_number.number, telephone_number_path(telephone_number)
 
-= will_paginate @telephone_numbers
+#actions
+  = will_paginate @telephone_numbers

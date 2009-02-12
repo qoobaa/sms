@@ -6,5 +6,5 @@
 
 = render :partial => @message
 
-= button_to "No", { :action => "show" }, :method => :get
+= link_to "No", messages_path
 = button_to "Yes", { :action => "destroy" }, :method => :delete

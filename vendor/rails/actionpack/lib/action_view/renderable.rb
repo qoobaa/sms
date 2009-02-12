@@ -4,10 +4,6 @@ module ActionView
   module Renderable #:nodoc:
     extend ActiveSupport::Memoizable
 
-    def self.included(base)
-      @@mutex = Mutex.new
-    end
-
     def filename
       'compiled-template'
     end
@@ -21,6 +17,11 @@ module ActionView
       handler.call(self)
     end
     memoize :compiled_source
+
+    def method_name_without_locals
+      ['_run', extension, method_segment].compact.join('_')
+    end
+    memoize :method_name_without_locals
 
     def render(view, local_assigns = {})
       compile(local_assigns)
@@ -46,9 +47,12 @@ module ActionView
 
     def method_name(local_assigns)
       if local_assigns && local_assigns.any?
-        local_assigns_keys = "locals_#{local_assigns.keys.map { |k| k.to_s }.sort.join('_')}"
+        method_name = method_name_without_locals.dup
+        method_name << "_locals_#{local_assigns.keys.map { |k| k.to_s }.sort.join('_')}"
+      else
+        method_name = method_name_without_locals
       end
-      ['_run', extension, method_segment, local_assigns_keys].compact.join('_').to_sym
+      method_name.to_sym
     end
 
     private
@@ -56,10 +60,8 @@ module ActionView
       def compile(local_assigns)
         render_symbol = method_name(local_assigns)
 
-        @@mutex.synchronize do
-          if recompile?(render_symbol)
-            compile!(render_symbol, local_assigns)
-          end
+        if !Base::CompiledTemplates.method_defined?(render_symbol) || recompile?
+          compile!(render_symbol, local_assigns)
         end
       end
 
@@ -87,11 +89,8 @@ module ActionView
         end
       end
 
-      # Method to check whether template compilation is necessary.
-      # The template will be compiled if the file has not been compiled yet, or
-      # if local_assigns has a new key, which isn't supported by the compiled code yet.
-      def recompile?(symbol)
-        !Base::CompiledTemplates.method_defined?(symbol) || !loaded?
+      def recompile?
+        false
       end
   end
 end

@@ -1,12 +1,5 @@
-- content_for :menu do
-  = render :partial => "menu"
-
-%h2 New contact
-
-= error_messages_for :contact
-= error_messages_for :telephone_number, :object => @contact.telephone_number
+%h1 New contact
 
 - form_for @contact do |f|
   = render :partial => "form", :locals => { :f => f }
-  %fieldset.buttons
-    = submit_tag "Create"
+  = submit_tag "Create"

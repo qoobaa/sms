@@ -1,5 +1,3 @@
-= will_paginate @messages
-
 %ul
   - @messages.each do |message|
     %li
@@ -10,3 +8,5 @@
             = link_to_telephone_number(telephone_number)
         %dt Content
         %dd= link_to truncate(message.content), message_path(message)
+
+= will_paginate @messages

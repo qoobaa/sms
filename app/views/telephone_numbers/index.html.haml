@@ -1,9 +1,4 @@
-- content_for :menu do
-  = render :partial => "menu"
-
-%h2 Listing telephone numbers
-
-= will_paginate @telephone_numbers
+%h1 Listing telephone numbers
 
 %ul
   - @telephone_numbers.each do |telephone_number|
@@ -11,4 +6,5 @@
       %dl
         %dt Number
         %dd= link_to telephone_number.number, telephone_number_path(telephone_number)
-      = button_to "Destroy", telephone_number_path(telephone_number), :method => :delete if telephone_number.can_be_destroyed?
+
+= will_paginate @telephone_numbers

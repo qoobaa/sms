@@ -203,7 +203,6 @@ module ActiveRecord
           if attr == "base"
             full_messages << message
           else
-            #key = :"activerecord.att.#{@base.class.name.underscore.to_sym}.#{attr}" 
             attr_name = @base.class.human_attribute_name(attr)
             full_messages << attr_name + I18n.t('activerecord.errors.format.separator', :default => ' ') + message
           end
@@ -576,6 +575,8 @@ module ActiveRecord
         # Get range option and value.
         option = range_options.first
         option_value = options[range_options.first]
+        key = {:is => :wrong_length, :minimum => :too_short, :maximum => :too_long}[option]
+        custom_message = options[:message] || options[key]
 
         case option
           when :within, :in
@@ -584,9 +585,9 @@ module ActiveRecord
             validates_each(attrs, options) do |record, attr, value|
               value = options[:tokenizer].call(value) if value.kind_of?(String)
               if value.nil? or value.size < option_value.begin
-                record.errors.add(attr, :too_short, :default => options[:too_short], :count => option_value.begin)
+                record.errors.add(attr, :too_short, :default => custom_message || options[:too_short], :count => option_value.begin)
               elsif value.size > option_value.end
-                record.errors.add(attr, :too_long, :default => options[:too_long], :count => option_value.end)
+                record.errors.add(attr, :too_long, :default => custom_message || options[:too_long], :count => option_value.end)
               end
             end
           when :is, :minimum, :maximum
@@ -594,13 +595,10 @@ module ActiveRecord
 
             # Declare different validations per option.
             validity_checks = { :is => "==", :minimum => ">=", :maximum => "<=" }
-            message_options = { :is => :wrong_length, :minimum => :too_short, :maximum => :too_long }
 
             validates_each(attrs, options) do |record, attr, value|
               value = options[:tokenizer].call(value) if value.kind_of?(String)
               unless !value.nil? and value.size.method(validity_checks[option])[option_value]
-                key = message_options[option]
-                custom_message = options[:message] || options[key]
                 record.errors.add(attr, key, :default => custom_message, :count => option_value) 
               end
             end
@@ -905,7 +903,7 @@ module ActiveRecord
         configuration.update(attr_names.extract_options!)
 
         validates_each(attr_names, configuration) do |record, attr_name, value|
-          unless (value.is_a?(Array) ? value : [value]).inject(true) { |v, r| (r.nil? || r.valid?) && v }
+          unless (value.is_a?(Array) ? value : [value]).collect { |r| r.nil? || r.valid? }.all?
             record.errors.add(attr_name, :invalid, :default => configuration[:message], :value => value)
           end
         end

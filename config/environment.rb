@@ -8,8 +8,9 @@ Rails::Initializer.run do |config|
   config.gem "haml", :source => "http://gems.github.com"
   config.gem "mislav-will_paginate", :lib => "will_paginate", :source => "http://gems.github.com"
   config.gem "rubyist-aasm", :lib => "aasm", :source => "http://gems.github.com"
-  # config.gem 'rspec-rails', :lib => 'spec/rails', :version => '1.1.11'
-  # config.gem 'rspec', :lib => 'spec', :version => '1.1.11'
+  config.gem "chriseppstein-compass", :lib => "compass", :source => "http://gems.github.com"
+  config.gem 'rspec-rails', :lib => false
+  config.gem 'rspec', :lib => false
 
   config.time_zone = 'UTC'
 end

@@ -1,4 +1,0 @@
-%li= link_to_unless_current_action "Show", message_path(@message)
-- if @message.pending?
-  %li= link_to_unless_current_action "Edit", edit_message_path(@message)
-%li= link_to_unless_current_action "Delete", delete_message_path(@message)

@@ -1,21 +1,21 @@
 require 'abstract_unit'
 
-class CookieTest < Test::Unit::TestCase
+class CookieTest < ActionController::TestCase
   class TestController < ActionController::Base
     def authenticate
       cookies["user_name"] = "david"
     end
 
     def authenticate_for_fourteen_days
-      cookies["user_name"] = { "value" => "david", "expires" => Time.local(2005, 10, 10) }
+      cookies["user_name"] = { "value" => "david", "expires" => Time.utc(2005, 10, 10,5) }
     end
 
     def authenticate_for_fourteen_days_with_symbols
-      cookies[:user_name] = { :value => "david", :expires => Time.local(2005, 10, 10) }
+      cookies[:user_name] = { :value => "david", :expires => Time.utc(2005, 10, 10,5) }
     end
 
     def set_multiple_cookies
-      cookies["user_name"] = { "value" => "david", "expires" => Time.local(2005, 10, 10) }
+      cookies["user_name"] = { "value" => "david", "expires" => Time.utc(2005, 10, 10,5) }
       cookies["login"]     = "XJ-122"
     end
 
@@ -41,11 +41,9 @@ class CookieTest < Test::Unit::TestCase
     end
   end
 
-  def setup
-    @request  = ActionController::TestRequest.new
-    @response = ActionController::TestResponse.new
+  tests TestController
 
-    @controller = TestController.new
+  def setup
     @request.host = "www.nextangle.com"
   end
 

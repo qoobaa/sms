@@ -26,6 +26,9 @@ module ActionController
       # The status message that accompanied the status code of the last request.
       attr_reader :status_message
 
+      # The body of the last request.
+      attr_reader :body
+
       # The URI of the last request.
       attr_reader :path
 
@@ -61,8 +64,8 @@ module ActionController
       end
 
       # Create and initialize a new Session instance.
-      def initialize(app)
-        @application = app
+      def initialize(app = nil)
+        @application = app || ActionController::Dispatcher.new
         reset!
       end
 
@@ -300,13 +303,19 @@ module ActionController
             env[key] = value
           end
 
-          unless ActionController::Base.respond_to?(:clear_last_instantiation!)
-            ActionController::Base.module_eval { include ControllerCapture }
+          [ControllerCapture, ActionController::ProcessWithTest].each do |mod|
+            unless ActionController::Base < mod
+              ActionController::Base.class_eval { include mod }
+            end
           end
 
           ActionController::Base.clear_last_instantiation!
 
-          app = Rack::Lint.new(@application)
+          app = @application
+          # Rack::Lint doesn't accept String headers or bodies in Ruby 1.9
+          unless RUBY_VERSION >= '1.9.0' && Rack.release <= '0.9.0'
+            app = Rack::Lint.new(app)
+          end
 
           status, headers, body = app.call(env)
           @request_count += 1
@@ -324,11 +333,16 @@ module ActionController
           end
 
           @body = ""
-          body.each { |part| @body << part }
+          if body.is_a?(String)
+            @body << body
+          else
+            body.each { |part| @body << part }
+          end
 
           if @controller = ActionController::Base.last_instantiation
             @request = @controller.request
             @response = @controller.response
+            @controller.send(:set_test_assigns)
           else
             # Decorate responses from Rack Middleware and Rails Metal
             # as an Response for the purposes of integration testing
@@ -371,7 +385,7 @@ module ActionController
             "SERVER_PORT"    => https? ? "443" : "80",
             "HTTPS"          => https? ? "on" : "off"
           }
-          UrlRewriter.new(RackRequest.new(env), {})
+          UrlRewriter.new(Request.new(env), {})
         end
 
         def name_with_prefix(prefix, name)
@@ -417,7 +431,7 @@ module ActionController
         def multipart_body(params, boundary)
           multipart_requestify(params).map do |key, value|
             if value.respond_to?(:original_filename)
-              File.open(value.path) do |f|
+              File.open(value.path, "rb") do |f|
                 f.set_encoding(Encoding::BINARY) if f.respond_to?(:set_encoding)
 
                 <<-EOF
@@ -498,7 +512,6 @@ EOF
       # can use this method to open multiple sessions that ought to be tested
       # simultaneously.
       def open_session(application = nil)
-        application ||= ActionController::Dispatcher.new
         session = Integration::Session.new(application)
 
         # delegate the fixture accessors back to the test instance

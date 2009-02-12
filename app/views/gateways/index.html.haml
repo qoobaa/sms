@@ -1,15 +1,18 @@
-- content_for :menu do
-  = render :partial => "menu"
+%h1 Listing gateways
 
-%h2 Listing gateways
+#actions= link_to "new", new_gateway_path
+
+%table
+  %tr
+    %th Name
+    %th Type
+  - @gateways.each do |gateway|
+    %tr
+      %td= gateway.name
+      %td= gateway.class.to_s.titleize
+      %td
+        = link_to "show", gateway_path(gateway)
+        = link_to "edit", edit_gateway_path(gateway)
+        = link_to "delete", delete_gateway_path(gateway)
 
 = will_paginate @gateways
-
-%ul
-  - @gateways.each do |gateway|
-    %li
-      %dl
-        %dt Name
-        %dd= link_to gateway.name, gateway_path(gateway)
-        %dt Type
-        %dd= gateway.class.to_s.titleize

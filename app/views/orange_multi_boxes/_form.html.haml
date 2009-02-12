@@ -5,11 +5,14 @@
       = f.label :name, "Name<em>*</em>"
       = f.text_field :name
       %small e.g. my orange account
+      = f.error_message_on :name
     %li
       = f.label :login, "Login<em>*</em>"
       = f.text_field :login
       %small login of the Orange Multi Box account
+      = f.error_message_on :login
     %li
       = f.label :password, "Password<em>*</em>"
       = f.password_field :password
       %small password to the account
+      = f.error_message_on :password

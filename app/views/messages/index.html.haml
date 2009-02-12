@@ -1,6 +1,22 @@
-- content_for :menu do
-  = render :partial => "menu"
+%h1 Listing messages
 
-%h2= h "Listing #{@state} messages"
+#actions= link_to "new", new_message_path
 
-#messages= render :partial => "messages"
+%table
+  %tr
+    %th Recipients
+    %th Content
+    %th State
+  - @messages.each do |message|
+    %tr
+      %td
+        - message.telephone_numbers.each do |telephone_number|
+          = link_to_telephone_number(telephone_number)
+      %td= truncate(message.content)
+      %td= link_to message.aasm_state, send("#{message.aasm_state}_messages_path")
+      %td
+        = link_to "show", message_path(message)
+        = link_to "edit", edit_message_path(message)
+        = link_to "delete", delete_message_path(message)
+
+= will_paginate @messages

@@ -19,7 +19,8 @@ class SendFileController < ActionController::Base
   def rescue_action(e) raise end
 end
 
-class SendFileTest < Test::Unit::TestCase
+class SendFileTest < ActionController::TestCase
+  tests SendFileController
   include TestFileUtils
 
   Mime::Type.register "image/png", :png unless defined? Mime::PNG
@@ -117,6 +118,31 @@ class SendFileTest < Test::Unit::TestCase
     @controller.send(:send_file_headers!, options)
     h = @controller.headers
     assert_equal 'private', h['Cache-Control']
+  end
+
+  def test_send_file_headers_with_mime_lookup_with_symbol
+    options = {
+      :length => 1,
+      :type => :png
+    }
+
+    @controller.headers = {}
+    @controller.send(:send_file_headers!, options)
+
+    headers = @controller.headers
+
+    assert_equal 'image/png', headers['Content-Type']
+  end
+  
+
+  def test_send_file_headers_with_bad_symbol
+    options = {
+      :length => 1,
+      :type => :this_type_is_not_registered
+    }
+
+    @controller.headers = {}
+    assert_raises(ArgumentError){ @controller.send(:send_file_headers!, options) }
   end
 
   %w(file data).each do |method|

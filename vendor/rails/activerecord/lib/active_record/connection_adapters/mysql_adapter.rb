@@ -13,23 +13,25 @@ module MysqlCompat #:nodoc:
     # C driver >= 2.7 returns null values in each_hash
     if Mysql.const_defined?(:VERSION) && (Mysql::VERSION.is_a?(String) || Mysql::VERSION >= 20700)
       target.class_eval <<-'end_eval'
-      def all_hashes
-        rows = []
-        each_hash { |row| rows << row }
-        rows
-      end
+      def all_hashes                     # def all_hashes
+        rows = []                        #   rows = []
+        each_hash { |row| rows << row }  #   each_hash { |row| rows << row }
+        rows                             #   rows
+      end                                # end
       end_eval
 
     # adapters before 2.7 don't have a version constant
     # and don't return null values in each_hash
     else
       target.class_eval <<-'end_eval'
-      def all_hashes
-        rows = []
-        all_fields = fetch_fields.inject({}) { |fields, f| fields[f.name] = nil; fields }
-        each_hash { |row| rows << all_fields.dup.update(row) }
-        rows
-      end
+      def all_hashes                                            # def all_hashes
+        rows = []                                               #   rows = []
+        all_fields = fetch_fields.inject({}) { |fields, f|      #   all_fields = fetch_fields.inject({}) { |fields, f|
+          fields[f.name] = nil; fields                          #     fields[f.name] = nil; fields
+        }                                                       #   }
+        each_hash { |row| rows << all_fields.dup.update(row) }  #   each_hash { |row| rows << all_fields.dup.update(row) }
+        rows                                                    #   rows
+      end                                                       # end
       end_eval
     end
 
@@ -150,6 +152,7 @@ module ActiveRecord
     # * <tt>:password</tt> - Defaults to nothing.
     # * <tt>:database</tt> - The name of the database. No default, must be provided.
     # * <tt>:encoding</tt> - (Optional) Sets the client encoding by executing "SET NAMES <encoding>" after connection.
+    # * <tt>:reconnect</tt> - Defaults to false (See MySQL documentation: http://dev.mysql.com/doc/refman/5.0/en/auto-reconnect.html).
     # * <tt>:sslca</tt> - Necessary to use MySQL with an SSL connection.
     # * <tt>:sslkey</tt> - Necessary to use MySQL with an SSL connection.
     # * <tt>:sslcert</tt> - Necessary to use MySQL with an SSL connection.
@@ -206,6 +209,10 @@ module ActiveRecord
       end
 
       def supports_migrations? #:nodoc:
+        true
+      end
+      
+      def supports_savepoints? #:nodoc:
         true
       end
 
@@ -347,6 +354,17 @@ module ActiveRecord
         # Transactions aren't supported
       end
 
+      def create_savepoint
+        execute("SAVEPOINT #{current_savepoint_name}")
+      end
+
+      def rollback_to_savepoint
+        execute("ROLLBACK TO SAVEPOINT #{current_savepoint_name}")
+      end
+
+      def release_savepoint
+        execute("RELEASE SAVEPOINT #{current_savepoint_name}")
+      end
 
       def add_limit_offset!(sql, options) #:nodoc:
         if limit = options[:limit]
@@ -546,8 +564,6 @@ module ActiveRecord
 
       private
         def connect
-          @connection.reconnect = true if @connection.respond_to?(:reconnect=)
-
           encoding = @config[:encoding]
           if encoding
             @connection.options(Mysql::SET_CHARSET_NAME, encoding) rescue nil
@@ -558,6 +574,10 @@ module ActiveRecord
           end
 
           @connection.real_connect(*@connection_options)
+
+          # reconnect must be set after real_connect is called, because real_connect sets it to false internally
+          @connection.reconnect = !!@config[:reconnect] if @connection.respond_to?(:reconnect=)
+
           configure_connection
         end
 

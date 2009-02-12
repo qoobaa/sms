@@ -1,18 +1,14 @@
-- content_for :menu do
-  = render :partial => "menu"
+%h1 Listing contacts
 
-%h2 Listing contacts
+#actions= link_to "new", new_contact_path
+
+%table
+  %tr
+    %th Name
+    %th Telephone number
+  - @contacts.each do |contact|
+    %tr
+      %td= link_to contact.name, contact_path(contact)
+      %td= link_to contact.number, telephone_number_path(contact.telephone_number)
 
 = will_paginate @contacts
-
-%ul
-  - @contacts.each do |contact|
-    %li
-      %dl
-        %dt Name
-        %dd= link_to contact.name, contact_path(contact)
-        %dt Telephone number
-        %dd= link_to contact.telephone_number.number, telephone_number_path(contact.telephone_number)
-
-
-

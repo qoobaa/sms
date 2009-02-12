@@ -24,4 +24,5 @@ class User < ActiveRecord::Base
   has_many :contacts, :dependent => :delete_all
   has_many :messages, :dependent => :delete_all
   has_many :gateways, :dependent => :delete_all
+  has_many :orange_multi_boxes
 end

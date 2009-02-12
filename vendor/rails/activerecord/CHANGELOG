@@ -1,4 +1,23 @@
-*2.3.0/3.0*
+*2.3.0 [RC1] (February 1st, 2009)*
+
+* Add Support for updating deeply nested models from a single form. #1202 [Eloy Duran]
+
+	class Book < ActiveRecord::Base
+	  has_one :author
+	  has_many :pages
+
+	  accepts_nested_attributes_for :author, :pages
+	end
+
+* Make after_save callbacks fire only if the record was successfully saved.  #1735 [Michael Lovitt]
+
+  Previously the callbacks would fire if a before_save cancelled saving.
+
+* Support nested transactions using database savepoints.  #383 [Jonathan Viney, Hongli Lai]
+
+* Added dynamic scopes ala dynamic finders #1648 [Yaroslav Markin]
+
+* Fixed that ActiveRecord::Base#new_record? should return false (not nil) for existing records #1219 [Yaroslav Markin]
 
 * I18n the word separator for error messages. Introduces the activerecord.errors.format.separator translation key.  #1294 [Akira Matsuda]
 
@@ -5244,7 +5263,7 @@ in effect.  Added :readonly finder constraint.  Calling an association collectio
     end
   
   This will assume that settings is a text column and will now YAMLize any object put in that attribute. You can also specify
-  an optional :class_name option that'll raise an exception if a serialized object is retrieved as a descendent of a class not in
+  an optional :class_name option that'll raise an exception if a serialized object is retrieved as a descendant of a class not in
   the hierarchy. Example:
   
     class User < ActiveRecord::Base
@@ -5740,7 +5759,7 @@ _Misc_
 *0.8.2*
 
 * Added inheritable callback queues that can ensure that certain callback methods or inline fragments are
-  run throughout the entire inheritance hierarchy. Regardless of whether a descendent overwrites the callback
+  run throughout the entire inheritance hierarchy. Regardless of whether a descendant overwrites the callback
   method:
   
     class Topic < ActiveRecord::Base

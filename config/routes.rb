@@ -7,5 +7,5 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :contacts, :member => { :delete => :get }
   map.resources :recipients, :only => :index
 
-  map.root :controller => "messages", :action => "pending"
+  map.root :controller => "messages", :action => "new"
 end

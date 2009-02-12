@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   def index
-    redirect_to pending_messages_path
+    @messages = @current_user.messages.paginate(:page => params[:page])
   end
 
   def index_with_state

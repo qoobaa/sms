@@ -27,6 +27,24 @@ class MethodScopingTest < ActiveRecord::TestCase
     end
   end
 
+  def test_scoped_find_last
+    highest_salary = Developer.find(:first, :order => "salary DESC")
+
+    Developer.with_scope(:find => { :order => "salary" }) do
+      assert_equal highest_salary, Developer.last
+    end
+  end
+
+  def test_scoped_find_last_preserves_scope
+    lowest_salary = Developer.find(:first, :order => "salary ASC")
+    highest_salary = Developer.find(:first, :order => "salary DESC")
+
+    Developer.with_scope(:find => { :order => "salary" }) do
+      assert_equal highest_salary, Developer.last
+      assert_equal lowest_salary, Developer.first
+    end
+  end
+
   def test_scoped_find_combines_conditions
     Developer.with_scope(:find => { :conditions => "salary = 9000" }) do
       assert_equal developers(:poor_jamis), Developer.find(:first, :conditions => "name = 'Jamis'")
@@ -161,6 +179,16 @@ class MethodScopingTest < ActiveRecord::TestCase
   def test_scoped_find_merges_joins_and_eliminates_duplicate_string_joins
     scoped_authors = Author.with_scope(:find => { :joins => 'INNER JOIN posts ON posts.author_id = authors.id'}) do
       Author.find(:all, :select => 'DISTINCT authors.*', :joins => ["INNER JOIN posts ON posts.author_id = authors.id", "INNER JOIN comments ON posts.id = comments.post_id"], :conditions => 'comments.id = 1')
+    end
+    assert scoped_authors.include?(authors(:david))
+    assert !scoped_authors.include?(authors(:mary))
+    assert_equal 1, scoped_authors.size
+    assert_equal authors(:david).attributes, scoped_authors.first.attributes
+  end
+
+  def test_scoped_find_strips_spaces_from_string_joins_and_eliminates_duplicate_string_joins
+    scoped_authors = Author.with_scope(:find => { :joins => ' INNER JOIN posts ON posts.author_id = authors.id '}) do
+      Author.find(:all, :select => 'DISTINCT authors.*', :joins => ['INNER JOIN posts ON posts.author_id = authors.id'], :conditions => 'posts.id = 1')
     end
     assert scoped_authors.include?(authors(:david))
     assert !scoped_authors.include?(authors(:mary))

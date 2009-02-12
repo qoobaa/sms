@@ -6,5 +6,5 @@
 
 = render :partial => @telephone_number
 
-= button_to "No", { :action => "show" }, :method => :get
+= link_to "No", telephone_numbers_path
 = button_to "Yes", { :action => "destroy" }, :method => :delete

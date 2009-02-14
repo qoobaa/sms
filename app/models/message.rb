@@ -15,12 +15,9 @@ class Message < ActiveRecord::Base
   belongs_to :gateway
   has_and_belongs_to_many :telephone_numbers
 
-  validates_presence_of :content, :user
-  validates_presence_of :recipients, :gateway
+  validates_presence_of :content, :user, :recipients, :gateway
   validates_length_of :content, :maximum => 640
   validate :acceptance_of_telephone_numbers
-
-  default_scope :order => "created_at DESC"
 
   before_validation :associate_telephone_numbers
 
@@ -28,12 +25,16 @@ class Message < ActiveRecord::Base
   cattr_reader :per_page
 
   attr_accessible :recipients, :content, :deliver_at
-  attr_reader :recipients
 
+  default_scope :order => "created_at DESC"
   named_scope :awaiting, lambda { { :conditions => ["aasm_state = ? AND deliver_at < ?", "pending", Time.now.utc] } }
 
   def recipients=(recipients)
     @recipients = recipients.squeeze(" ").split(",").map(&:strip).delete_if(&:empty?).uniq.join(", ")
+  end
+
+  def recipients
+    telephone_numbers.map(&:to_s)
   end
 
   protected
@@ -54,8 +55,10 @@ class Message < ActiveRecord::Base
   end
 
   def associate_telephone_numbers
+    return if @recipients.nil?
     telephone_numbers.clear
-    recipients.split(", ").each { |r| telephone_numbers << user.telephone_numbers.find_or_initialize_by_recipient(r) } if recipients
+    @recipients.split(", ").each { |r| telephone_numbers << user.telephone_numbers.find_or_initialize_by_recipient(r) }
     telephone_numbers.uniq!
+    @recipients = nil
   end
 end

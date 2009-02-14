@@ -5,7 +5,7 @@ class OrangeMultiBox < Gateway
   def amount
     Rails.cache.fetch("gateway#{id}.amount") do
       amount = nil
-      Gateways::OrangeMultiBox.login(login, self.class.decrypt(crypted_password)) { |gateway| amount = gateway.amount }
+      Gateways::OrangeMultiBox.new(login, self.class.decrypt(crypted_password)) { |gateway| amount = gateway.amount }
       amount
     end
   end
@@ -21,7 +21,7 @@ class OrangeMultiBox < Gateway
   def deliver(telephone_numbers, content)
     Rails.cache.delete("gateway#{id}.amount")
     result = false
-    Gateways::OrangeMultiBox.login(login, self.class.decrypt(crypted_password)) do |gateway|
+    Gateways::OrangeMultiBox.new(login, self.class.decrypt(crypted_password)) do |gateway|
       result = gateway.deliver(telephone_numbers.map(&:number).join(","), content) if gateway.amount >= telephone_numbers.size
     end
     result

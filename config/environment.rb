@@ -10,8 +10,10 @@ Rails::Initializer.run do |config|
   config.gem "rubyist-aasm", :lib => "aasm", :source => "http://gems.github.com"
   config.gem "chriseppstein-compass", :lib => "compass", :source => "http://gems.github.com"
   config.gem "railsgarden-message_block", :lib => "message_block", :source => "http://gems.github.com"
-  config.gem 'rspec-rails', :lib => false
-  config.gem 'rspec', :lib => false
+  config.gem "rspec-rails", :lib => false
+  config.gem "rspec", :lib => false
+  config.gem "mechanize"
+  config.gem "hpricot"
 
-  config.time_zone = 'UTC'
+  config.time_zone = "UTC"
 end

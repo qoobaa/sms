@@ -8,9 +8,6 @@
     %li
       = f.label :content, "Content<em>*</em>"
       = f.text_area :content
-%fieldset
-  %legend Delivery
-  %ol
     %li
       = f.label :gateway_id, "Gateway<em>*</em>"
       = f.collection_select :gateway_id, @gateways, :id, :name

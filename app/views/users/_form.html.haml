@@ -16,9 +16,6 @@
     %li
       = f.label :password_confirmation, "Confirm password<em>*</em>"
       = f.password_field :password_confirmation
-%fieldset
-  %legend Settings
-  %ol
     %li
       = f.label :default_country_code, "Default country code<em>*</em>"
       = f.select :default_country_code, E164::COUNTRIES, :include_blank => true

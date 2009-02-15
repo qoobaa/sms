@@ -1,7 +1,7 @@
 --- !ruby/object:Gem::Specification 
 name: chriseppstein-compass
 version: !ruby/object:Gem::Version 
-  version: 0.4.1
+  version: 0.4.2
 platform: ruby
 authors: 
 - Chris Eppstein
@@ -9,7 +9,7 @@ autorequire:
 bindir: bin
 cert_chain: []
 
-date: 2009-02-08 00:00:00 +01:00
+date: 2009-02-12 00:00:00 +01:00
 default_executable: compass
 dependencies: 
 - !ruby/object:Gem::Dependency 
@@ -251,6 +251,7 @@ files:
 - test/sass_extensions_test.rb
 - test/test_helper.rb
 - VERSION
+- test/configuration_test.rb
 has_rdoc: false
 homepage: http://github.com/chriseppstein/compass
 post_install_message: 
@@ -285,5 +286,6 @@ summary: Sass-Based CSS Meta-Framework.
 test_files: 
 - test/command_line_test.rb
 - test/compass_test.rb
+- test/configuration_test.rb
 - test/sass_extensions_test.rb
 - test/test_helper.rb
